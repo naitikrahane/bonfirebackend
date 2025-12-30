@@ -2,21 +2,29 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
+// REQUIRED for OG image routes
+export const alt = "Bonfire Proof Image";
+export const size = {
+  width: 1200,
+  height: 630,
+};
+export const contentType = "image/png";
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
   const text =
-    searchParams.get("text") ||
+    searchParams.get("text") ??
     "A regret was burned into the digital bonfire";
 
   const addr =
-    searchParams.get("addr") ||
+    searchParams.get("addr") ??
     "0xANON";
 
   const date = new Date().toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
-    day: "numeric"
+    day: "numeric",
   });
 
   return new ImageResponse(
@@ -25,14 +33,14 @@ export async function GET(req: Request) {
         style={{
           width: "1200px",
           height: "630px",
-          backgroundColor: "#000000",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          backgroundColor: "#000",
           padding: "56px",
-          color: "#ffffff",
+          color: "#fff",
           border: "18px solid #ff4500",
-          fontFamily: "serif"
+          fontFamily: "serif",
         }}
       >
         {/* HEADER */}
@@ -42,25 +50,24 @@ export async function GET(req: Request) {
               fontSize: 56,
               fontWeight: 700,
               letterSpacing: 3,
-              color: "#ff4500"
+              color: "#ff4500",
             }}
           >
             PROOF OF BURN
           </div>
-
           <div
             style={{
-              marginTop: 12,
+              marginTop: 10,
               fontSize: 26,
-              color: "#999999",
-              fontFamily: "monospace"
+              color: "#999",
+              fontFamily: "monospace",
             }}
           >
             FARCASTER • BASE • ON-CHAIN
           </div>
         </div>
 
-        {/* CENTER CONTENT */}
+        {/* CENTER TEXT */}
         <div
           style={{
             flex: 1,
@@ -68,14 +75,14 @@ export async function GET(req: Request) {
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
-            padding: "0 40px"
+            padding: "0 40px",
           }}
         >
           <div
             style={{
               fontSize: text.length > 60 ? 52 : 72,
               lineHeight: 1.25,
-              wordBreak: "break-word"
+              wordBreak: "break-word",
             }}
           >
             “{text}”
@@ -87,10 +94,9 @@ export async function GET(req: Request) {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "flex-end",
             fontFamily: "monospace",
             fontSize: 22,
-            color: "#aaaaaa"
+            color: "#aaa",
           }}
         >
           <div>
@@ -103,7 +109,7 @@ export async function GET(req: Request) {
             style={{
               color: "#ff4500",
               fontWeight: 600,
-              letterSpacing: 1
+              letterSpacing: 1,
             }}
           >
             THE DIGITAL BONFIRE
@@ -113,7 +119,7 @@ export async function GET(req: Request) {
     ),
     {
       width: 1200,
-      height: 630
+      height: 630,
     }
   );
 }
