@@ -1,23 +1,11 @@
-import { ImageResponse } from "next/og";
+import { ImageResponse } from "next/server";
 
 export const runtime = "edge";
 
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-
-  const text =
-    searchParams.get("text") ??
-    "A regret was burned into the digital bonfire";
-
-  const addr =
-    searchParams.get("addr") ??
-    "0xANON";
-
-  const date = new Date().toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const text = searchParams.get("text") || "No text provided";
+  const addr = searchParams.get("addr") || "0xANON";
 
   return new ImageResponse(
     (
@@ -25,22 +13,21 @@ export async function GET(req: Request) {
         style={{
           width: "1200px",
           height: "630px",
+          backgroundColor: "#000",
+          color: "#fff",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#000",
           padding: "56px",
-          color: "#fff",
           border: "18px solid #ff4500",
           fontFamily: "serif",
         }}
       >
-        {/* HEADER */}
         <div style={{ textAlign: "center" }}>
           <div
             style={{
               fontSize: 56,
-              fontWeight: 700,
+              fontWeight: "bold",
               letterSpacing: 3,
               color: "#ff4500",
             }}
@@ -59,7 +46,6 @@ export async function GET(req: Request) {
           </div>
         </div>
 
-        {/* CENTER TEXT */}
         <div
           style={{
             flex: 1,
@@ -68,20 +54,14 @@ export async function GET(req: Request) {
             justifyContent: "center",
             textAlign: "center",
             padding: "0 40px",
+            fontSize: text.length > 60 ? 52 : 72,
+            lineHeight: 1.25,
+            wordBreak: "break-word",
           }}
         >
-          <div
-            style={{
-              fontSize: text.length > 60 ? 52 : 72,
-              lineHeight: 1.25,
-              wordBreak: "break-word",
-            }}
-          >
-            “{text}”
-          </div>
+          “{text}”
         </div>
 
-        {/* FOOTER */}
         <div
           style={{
             display: "flex",
@@ -94,13 +74,13 @@ export async function GET(req: Request) {
           <div>
             BURNED BY: {addr.slice(0, 6)}...
             <br />
-            DATE: {date}
+            DATE: {new Date().toLocaleDateString()}
           </div>
 
           <div
             style={{
               color: "#ff4500",
-              fontWeight: 600,
+              fontWeight: "600",
               letterSpacing: 1,
             }}
           >
