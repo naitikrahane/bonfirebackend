@@ -5,8 +5,19 @@ export const runtime = "edge";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
-  const text = searchParams.get("text") || "A regret was burned";
-  const addr = searchParams.get("addr") || "0xANON";
+  const text =
+    searchParams.get("text") ||
+    "A regret was burned into the digital bonfire";
+
+  const addr =
+    searchParams.get("addr") ||
+    "0xANON";
+
+  const date = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });
 
   return new ImageResponse(
     (
@@ -14,13 +25,13 @@ export async function GET(req: Request) {
         style={{
           width: "1200px",
           height: "630px",
-          backgroundColor: "#000",
+          backgroundColor: "#000000",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "60px",
-          color: "white",
-          border: "20px solid #ff4500",
+          padding: "56px",
+          color: "#ffffff",
+          border: "18px solid #ff4500",
           fontFamily: "serif"
         }}
       >
@@ -30,34 +41,45 @@ export async function GET(req: Request) {
             style={{
               fontSize: 56,
               fontWeight: 700,
-              color: "#ff4500",
-              letterSpacing: 2
+              letterSpacing: 3,
+              color: "#ff4500"
             }}
           >
-            PROOF OF CATHARSIS
+            PROOF OF BURN
           </div>
+
           <div
             style={{
               marginTop: 12,
               fontSize: 26,
-              color: "#999",
+              color: "#999999",
               fontFamily: "monospace"
             }}
           >
-            RECORDED ON BASE BLOCKCHAIN
+            FARCASTER • BASE • ON-CHAIN
           </div>
         </div>
 
-        {/* CENTER TEXT */}
+        {/* CENTER CONTENT */}
         <div
           style={{
-            fontSize: text.length > 40 ? 56 : 72,
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             textAlign: "center",
-            lineHeight: 1.2,
             padding: "0 40px"
           }}
         >
-          “{text}”
+          <div
+            style={{
+              fontSize: text.length > 60 ? 52 : 72,
+              lineHeight: 1.25,
+              wordBreak: "break-word"
+            }}
+          >
+            “{text}”
+          </div>
         </div>
 
         {/* FOOTER */}
@@ -65,18 +87,25 @@ export async function GET(req: Request) {
           style={{
             display: "flex",
             justifyContent: "space-between",
+            alignItems: "flex-end",
             fontFamily: "monospace",
             fontSize: 22,
-            color: "#aaa"
+            color: "#aaaaaa"
           }}
         >
           <div>
             BURNED BY: {addr.slice(0, 6)}...
             <br />
-            DATE: {new Date().toLocaleDateString()}
+            DATE: {date}
           </div>
 
-          <div style={{ color: "#ff4500" }}>
+          <div
+            style={{
+              color: "#ff4500",
+              fontWeight: 600,
+              letterSpacing: 1
+            }}
+          >
             THE DIGITAL BONFIRE
           </div>
         </div>
