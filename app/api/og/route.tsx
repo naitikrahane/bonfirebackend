@@ -6,11 +6,12 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     
-    // Get the regret text, limit length to prevent layout breaking
+    // Get inputs
     const rawRegret = searchParams.get('regret') || 'Protocol 2025';
+    // Truncate to prevent layout breaking
     const regret = rawRegret.length > 50 ? rawRegret.slice(0, 50) + '...' : rawRegret;
     
-    // Get optional wallet address
+    // Get address
     const rawAddr = searchParams.get('addr') || '0x...ANON';
     const addr = rawAddr.length > 12 ? rawAddr.slice(0, 6) + '...' + rawAddr.slice(-4) : rawAddr;
 
@@ -40,8 +41,8 @@ export async function GET(request: Request) {
             }}
           />
 
-          {/* Main Content Container */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          {/* Main Content */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', marginTop: '-20px' }}>
             
             {/* Header */}
             <span
@@ -70,7 +71,7 @@ export async function GET(request: Request) {
             </span>
 
             {/* The Regret Text */}
-            <div style={{ display: 'flex', padding: '0 80px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', padding: '0 80px', justifyContent: 'center', height: '200px', alignItems: 'center' }}>
               <span
                 style={{
                   color: '#ffffff',
